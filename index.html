@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>字符串替换工具</title>
+</head>
+<body>
+<h1>字符串替换工具</h1>
+
+<label for="input">请输入原始字符串：</label><br><br>
+<textarea id="input" style="height: 200px;width: 700px"></textarea><br><br>
+
+<label for="replace">请输入被替换字符串：</label>
+<input type="text" id="replace"><br><br>
+
+<label for="output">请输入替换字符串：</label>
+<input type="text" id="output"><br><br>
+
+<label for="freq">请输入替换周期（每几个匹配结果替换一次）：</label>
+<input type="number" id="freq" value=2><br><br>
+
+<label for="pos">请输入替换起点位置（从1开始）：</label>
+<input type="number" id="pos" value=1><br><br>
+
+<button onclick="replaceText()">替换</button><br><br>
+
+<textarea id="result" style="height: 200px;width: 700px"></textarea>
+
+<script>
+    function replaceText() {
+        var inputStr = document.getElementById("input").value;
+        var replaceStr = document.getElementById("replace").value;
+        var outputStr = document.getElementById("output").value;
+        var freq = parseInt(document.getElementById("freq").value);
+        var pos = parseInt(document.getElementById("pos").value);
+        var result = "";
+
+        // 将所有需要替换的位置存入一个数组中
+        var a=1
+
+        // 遍历所有需要替换的位置，并用 outputStr 替换
+        while (true){
+            let indexOf = inputStr.indexOf(replaceStr);
+            if (indexOf>-1){
+                if (a==pos){
+                    result+=inputStr.substring(0,indexOf)+outputStr;
+                    inputStr=inputStr.substring(indexOf+replaceStr.length);
+                }else {
+                    result+=inputStr.substring(0,indexOf+replaceStr.length);
+                    inputStr=inputStr.substring(indexOf+replaceStr.length);
+                }
+                if (a==freq){
+                    a=1;
+                    continue;
+                }
+                a++;
+            }else {
+                result+=inputStr;
+                break;
+            }
+        }
+
+        // 将结果输出到页面
+        document.getElementById("result").value = result;
+    }
+</script>
+</body>
+</html>
